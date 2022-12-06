@@ -1,23 +1,30 @@
 <Calculator>:
+    #:set color1 (0.235,0.075,0.380,1)
+    #:set color2 (0.322,0.118,0.486,1)
+    #:set color3 (0,0,0,1)
+    #:set color4 (117,194,149)
+
     orientation: 'vertical'
     # Top Box: Display
     BoxLayout:
         orientation:'horizontal'
-        size_hint: 1,0.15
-        padding: ('5dp', '5dp', '5dp', '5dp')
-        
+        size_hint: 1,0.08
+        padding: 5,10,5,0
         # Left: Memory
         Label:
+            id: memLabel
             size_hint: 0.1,1
-            text:'M'
+            text: ''
             font_size: "30dp"
-            
         # Mid: Main Display
-        Label:
+        TextInput:
+            id: mainDisplay
             size_hint: 0.8,1
-            text: root.display
-            font_size: "60dp"
+            text: "0"
+            font_size: 30
             font_name: 'fonts\digital-7.ttf'
+            halign: 'right'
+            valign: 'center'
         # Right: Active Operation
         Label:
             size_hint: 0.1,1
@@ -27,31 +34,44 @@
     # Mid Box: Operation and Number buttons
     BoxLayout:
         orientation:'vertical'
-        size_hint: 1,0.75
+        size_hint: 1,0.82
         padding: ('5dp', '5dp', '5dp', '5dp')
         # Top: Memory
         GridLayout:
+            
             padding: ('5dp', '5dp', '5dp', '5dp')
             cols: 6
             size_hint: 1,0.1
             Button:
                 id:"mem_plus"
+                background_color: color1
                 text:'M+'
+                on_press: root.action("M+")
             Button:
                 id: "mem_minus"
+                background_color: color1
                 text:'M-'
+                on_press: root.action("M-")
             Button:
                 id: "mem_recall"
+                background_color: color1
                 text:'MR'
+                on_press: root.action("MR")
             Button:
                 id: "mem_clear"
+                background_color: color1
                 text:'MC'
+                on_press: root.action("MC")
             Button:
                 id: "clear_all"
+                background_color: color1
                 text:'CE'
+                on_press: root.action('clear_all')
             Button:
                 id:"back_one"
+                background_color: color1
                 text:'<-'
+                on_press: root.action('back_one')
         
         # Mid: Complex Functions and Clear
         GridLayout:
@@ -60,64 +80,102 @@
             size_hint: 1,0.4
             Button:
                 id:"exp"
+                background_color: color2
                 text:'x^y'
+                on_press: root.action('**')
             Button:
                 id: "square"
+                background_color: color2
                 text:'x^2'
+                on_press: root.action('^2')
             Button:
                 id: "factorial"
+                background_color: color2
                 text:'x!'
+                on_press: root.action('!')
             Button:
                 id: "inverse"
+                background_color: color2
                 text:'1/x'
+                on_press: root.action('1/')
             Button:
                 id: "sq_root"
+                background_color: color2
                 text:'sq(x)'
+                on_press: root.action('sq_root')
             Button:
                 id: "open_parent"
+                background_color: color2
                 text:'('
             Button:
                 id:"close_parent"
+                background_color: color2
                 text:')'
             Button:
                 id: "absolute"
+                background_color: color2
                 text:'|x|'
+                on_press: root.action('abs')
             Button:
                 id: "factorial"
-                text:'x!'
+                background_color: color2
+                text:'log y'
+                on_press: root.action('logy')
             Button:
                 id: "e"
+                background_color: color2
                 text:'e'
+                on_press: root.action('e')
             Button:
                 id: "py"
+                background_color: color2
                 text:'pi'
+                on_press: root.action('pi')
             Button:
                 id: "log"
+                background_color: color2
                 text:'log'
+                on_press: root.action('log10')
             Button:
                 id: "plus_minus"
+                background_color: color2
                 text:'+/-'
+                on_press: root.action('+/-')
             Button:
                 id:"ln"
+                background_color: color2
                 text:'ln'
+                on_press: root.action('ln')
             Button:
                 id: "cos"
+                background_color: color2
                 text:'cos'
+                on_press: root.action('cos')
             Button:
                 id: "sin"
+                background_color: color2
                 text:'sin'
+                on_press: root.action('sin')
             Button:
                 id: "tan"
+                background_color: color2
                 text:'tan'
+                on_press: root.action('tan')
             Button:
-                id: "y_root"
+                id: "rooty"
+                background_color: color2
                 text:'y(x)'
+                on_press: root.action('rooty')
             Button:
                 id: "mod"
-                text:'mod'
+                background_color: color2
+                text:'x mod y'
+                on_press: root.action('mod')
             Button:
                 id: "e_to_x"
+                background_color: color2
                 text:'e^x'
+                on_press: root.action('e^x')
             
         # Bottom: Numbers and Basic Functions
         GridLayout:
@@ -125,19 +183,15 @@
             cols:4
             size_hint: 1,0.5
             Button:
-                id: "7"
                 text:'7'
                 on_press: root.digit(7)
             Button:
-                id: "8"
                 text:'8'
                 on_press: root.digit(8)
             Button:
-                id: "9"
                 text:'9'
                 on_press: root.digit(9)
             Button:
-                id: "plus"
                 text:'+'
                 on_press: root.action("+")
             Button:
@@ -190,6 +244,33 @@
                 on_press: root.action("/")
 
     #Bottom Box
-    Label:
-        size_hint: 1,0.1
-        text:'Bottom Box'
+        BoxLayout:
+            size_hint: 1,0.1
+            orientation:'horizontal'
+            padding: ('5dp', '5dp', '5dp', '5dp')
+            # Left box:
+            Button:
+                size_hint: 0.25,1
+                background_color: (0, 0, 0, 1)
+                text: ''
+                font_size: "15dp"
+            # Mid-Left Box:
+            Button:
+                size_hint: 0.25,1
+                background_color: (0, 0, 0, 1)
+                text: ''
+                font_size: "15dp"
+            # Mid-Right Box:
+            Button:
+                size_hint: 0.25,1
+                background_color: (0, 0, 0, 1)
+                text: ''
+                font_size: "15dp"
+            # Right Box:
+            Button:
+                id: angleUnitSwitch
+                size_hint: 0.25,1
+                background_color: (0, 0, 0, 1)
+                text: 'RAD'
+                font_size: "15dp"
+                on_press: root.switch('angles')
